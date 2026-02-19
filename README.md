@@ -5,10 +5,10 @@
 This is a responsive web application built using PHP, MySQL, HTML/CSS, and JavaScript. The project demonstrates core skills in form handling, CRUD operations, and session management.
 
 ## Team Members & Roles
-* **Member 1 (Project Lead / Backend):** [Name] - Backend development, Database design, and Security.
-* **Member 2 (UI-UX Designer):** [Name] - Responsive design, Bootstrap, and Client-side validation.
-* **Member 3 (DevOps / Deployment):** Salem Njoroge - GitHub management, Hosting, SEO, and Environment config.
-* **Member 4 (Security & Testing):** [Name] - Security audit, Penetration testing, and Privacy compliance.
+* **Okoth Calvince Omondi (Project Lead / Backend):** SCT211-0034/2024 - Backend development, Database design, and Security.
+* **Prince Michael Jr Wambwere(UI-UX Designer):** SCT211-0039/2024 - Responsive design, Bootstrap, and Client-side validation.
+* **Salem Njoroge (DevOps / Deployment):** SCT211-0007/2024 - GitHub management, Hosting, SEO, and Environment config.
+* **Andrew Chweya (Security & Testing):** SCT211-0251/2024 - Security audit, Penetration testing, and Privacy compliance.
 
 ## Technologies Used
 * **Backend:** PHP (PDO), MySQL
