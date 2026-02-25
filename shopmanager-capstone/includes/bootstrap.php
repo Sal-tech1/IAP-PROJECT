@@ -3,12 +3,12 @@
  * includes/bootstrap.php
  * Entry-point for every page.  Include this FIRST, before any output.
  *
- *   require_once __DIR__ . '/includes/bootstrap.php';
+ * require_once __DIR__ . '/includes/bootstrap.php';
  *
  * Responsibilities:
- *   • Load environment variables
- *   • Configure & start a secure session
- *   • Include shared helpers (db, auth, audit)
+ * • Load environment variables
+ * • Configure & start a secure session
+ * • Include shared helpers (db, auth, audit)
  */
 
 // ── 1. Suppress direct access to include files ──────────────────────────────
@@ -30,12 +30,12 @@ if (getenv('APP_DEBUG') === 'true') {
 
 // ── 4. Secure session configuration ──────────────────────────────────────────
 session_set_cookie_params([
-    'lifetime' => 0,                          // browser session only
+    'lifetime' => 0,                                          // browser session only
     'path'     => '/',
-    'domain'   => '',                         // current domain
-    'secure'   => ($_SERVER['HTTPS'] ?? 'off') === 'on',  // Secure flag on HTTPS
-    'httponly' => true,                       // JS cannot read session cookie
-    'samesite' => 'Strict',                   // CSRF mitigation
+    'domain'   => '',                                         // current domain
+    'secure'   => ($_SERVER['HTTPS'] ?? 'off') === 'on',      // Secure flag on HTTPS
+    'httponly' => true,                                       // JS cannot read session cookie
+    'samesite' => 'Strict',                                   // CSRF mitigation
 ]);
 
 if (session_status() === PHP_SESSION_NONE) {
