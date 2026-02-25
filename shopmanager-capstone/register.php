@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);  
 /**
  * register.php  –  New user registration page
  */
@@ -20,14 +22,12 @@ include __DIR__ . '/includes/header.php';
 <div class="auth-wrapper">
     <div class="auth-card card shadow">
 
-        <!-- Header -->
         <div class="text-center mb-3">
             <i class="bi bi-person-plus" style="font-size: 3rem; color: var(--clr-primary-lt);"></i>
             <h4 class="card-title mt-2 mb-0">Create an Account</h4>
             <small class="text-clr-muted">Fill in the details below to get started</small>
         </div>
 
-        <!-- Server-side error -->
         <?php if ($error): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle me-2"></i>
@@ -36,11 +36,9 @@ include __DIR__ . '/includes/header.php';
         </div>
         <?php endif; ?>
 
-        <!-- Registration form -->
         <form id="registerForm" method="POST" action="register.php" novalidate>
             <input type="hidden" name="csrf_token" value="<?= esc($_SESSION['csrf_token']) ?>" />
 
-            <!-- Full Name -->
             <div class="mb-3">
                 <label for="regName" class="form-label fw-semibold small">Full Name</label>
                 <div class="input-group">
@@ -56,7 +54,6 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
                 <label for="regEmail" class="form-label fw-semibold small">Email Address</label>
                 <div class="input-group">
@@ -72,7 +69,6 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Password -->
             <div class="mb-3">
                 <label for="regPassword" class="form-label fw-semibold small">Password</label>
                 <div class="input-group">
@@ -87,7 +83,6 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Confirm Password -->
             <div class="mb-4">
                 <label for="regConfirm" class="form-label fw-semibold small">Confirm Password</label>
                 <div class="input-group">
@@ -102,7 +97,6 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Submit -->
             <button type="submit" class="btn btn-primary-custom w-100">
                 <i class="bi bi-person-plus me-2"></i>Register
             </button>
