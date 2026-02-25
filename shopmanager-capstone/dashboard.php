@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 /**
  * dashboard.php  –  Main dashboard with KPI cards and recent audit log.
  */
@@ -19,7 +21,6 @@ $pageTitle = 'Dashboard';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Page heading ───────────────────────────────────────────────────────── -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h2 class="mb-0 fw-bold" style="color: var(--clr-primary);">
@@ -32,10 +33,8 @@ include __DIR__ . '/includes/header.php';
     </a>
 </div>
 
-<!-- ── KPI Cards ──────────────────────────────────────────────────────────── -->
 <div class="row g-4 mb-5">
 
-    <!-- Products -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4">
             <div class="d-flex align-items-center gap-3">
@@ -51,7 +50,6 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 
-    <!-- Categories -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4" style="border-left-color:#27ae60;">
             <div class="d-flex align-items-center gap-3">
@@ -67,7 +65,6 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 
-    <!-- Users -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4" style="border-left-color:#f39c12;">
             <div class="d-flex align-items-center gap-3">
@@ -84,7 +81,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── Recent Audit Log ───────────────────────────────────────────────────── -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-semibold mb-0" style="color: var(--clr-primary);">
         <i class="bi bi-clock-history me-2"></i>Recent Activity
