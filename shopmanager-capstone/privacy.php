@@ -8,7 +8,6 @@ $pageTitle = 'Privacy Policy';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
 <div class="text-center mb-5">
     <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--clr-primary-lt);"></i>
     <h2 class="fw-bold mt-2 mb-1" style="color: var(--clr-primary);">Privacy Policy</h2>
@@ -18,7 +17,6 @@ include __DIR__ . '/includes/header.php';
 <div class="row justify-content-center">
 <div class="col-lg-8">
 
-<!-- ── 1. What we collect ─────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -34,7 +32,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── 2. How we use it ───────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -48,7 +45,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── 3. Cookies ─────────────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -99,7 +95,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── 4. Data security ───────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -115,7 +110,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── 5. Your rights ─────────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -131,7 +125,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── 6. Contact ─────────────────────────────────────────────────────────── -->
 <div class="card shadow-sm">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -145,7 +138,4 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-</div><!-- /col -->
-</div><!-- /row -->
-
-<?php include __DIR__ . '/includes/footer.php'; ?>
+</div></div><?php include __DIR__ . '/includes/footer.php'; ?>
