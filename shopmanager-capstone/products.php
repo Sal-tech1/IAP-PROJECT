@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * products.php  –  Full CRUD for products.
  *
@@ -215,7 +218,6 @@ $pageTitle = 'Products';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Page heading ───────────────────────────────────────────────────────── -->
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
     <div>
         <h2 class="mb-0 fw-bold" style="color: var(--clr-primary);">
@@ -228,7 +230,6 @@ include __DIR__ . '/includes/header.php';
     </a>
 </div>
 
-<!-- ── Search bar ─────────────────────────────────────────────────────────── -->
 <form method="GET" action="products.php" class="mb-4">
     <div class="input-group" style="max-width:420px;">
         <span class="input-group-text bg-white">
@@ -244,7 +245,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </form>
 
-<!-- ── Product table ──────────────────────────────────────────────────────── -->
 <div class="table-responsive">
     <table class="table table-custom">
         <thead>
@@ -271,7 +271,7 @@ include __DIR__ . '/includes/header.php';
                 <td>
                     <strong><?= esc($p['name']) ?></strong>
                     <?php if (!empty($p['description'])): ?>
-                        <br /><small class="text-clr-muted"><?= esc(mb_stsubstr($p['description'], 0, 60)) ?>…</small>
+                        <br /><small class="text-clr-muted"><?= esc(mb_substr($p['description'], 0, 60)) ?>…</small>
                     <?php endif; ?>
                 </td>
                 <td>
@@ -284,12 +284,10 @@ include __DIR__ . '/includes/header.php';
                 </td>
                 <td class="text-end"><?= (int)$p['stock'] ?></td>
                 <td class="text-end">
-                    <!-- Edit button -->
                     <a href="products.php?action=edit&amp;id=<?= (int)$p['id'] ?>"
                        class="btn btn-sm btn-outline-secondary me-1" title="Edit">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <!-- Delete trigger (opens modal) -->
                     <button type="button"
                             class="btn btn-sm btn-outline-danger"
                             data-bs-toggle="modal" data-bs-target="#deleteModal"
@@ -306,11 +304,9 @@ include __DIR__ . '/includes/header.php';
     </table>
 </div>
 
-<!-- ── Pagination ─────────────────────────────────────────────────────────── -->
 <?php if ($paging['total_pages'] > 1): ?>
 <nav aria-label="Products pagination">
     <ul class="pagination justify-content-center">
-        <!-- Previous -->
         <li class="page-item <?= $paging['page'] <= 1 ? 'disabled' : '' ?>">
             <a class="page-link" href="products.php?page=<?= $paging['page'] - 1 ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <i class="bi bi-chevron-left"></i>
@@ -320,13 +316,12 @@ include __DIR__ . '/includes/header.php';
         <?php for ($i = 1; $i <= $paging['total_pages']; $i++): ?>
         <li class="page-item <?= $i === $paging['page'] ? 'active' : '' ?>">
             <a class="page-link"
-               href="products.php?page={$i}<?= $search ? '&search=' . urlencode($search) : '' ?>">
+               href="products.php?page=<?= $i ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <?= $i ?>
             </a>
         </li>
         <?php endfor; ?>
 
-        <!-- Next -->
         <li class="page-item <?= $paging['page'] >= $paging['total_pages'] ? 'disabled' : '' ?>">
             <a class="page-link" href="products.php?page=<?= $paging['page'] + 1 ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <i class="bi bi-chevron-right"></i>
@@ -336,7 +331,6 @@ include __DIR__ . '/includes/header.php';
 </nav>
 <?php endif; ?>
 
-<!-- ── Delete confirmation modal ──────────────────────────────────────────── -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-label="Delete confirmation">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
