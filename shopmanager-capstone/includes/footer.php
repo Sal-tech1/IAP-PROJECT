@@ -2,16 +2,12 @@
 /**
  * includes/footer.php
  * Shared bottom-of-page HTML: closing tags, Bootstrap JS, app scripts.
- *
- * Usage at the bottom of every page:
- *   include __DIR__ . '/includes/footer.php';
  */
 
 if (!defined('APP_RUNNING')) exit;
 ?>
-</main><!-- /main -->
+</main>
 
-<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
 <footer class="mt-auto py-3 text-center text-muted small"
         style="background: linear-gradient(135deg, #1a5276, #2e86c1);">
     <div class="container">
@@ -23,15 +19,12 @@ if (!defined('APP_RUNNING')) exit;
     </div>
 </footer>
 
-<!-- ── Bootstrap 5 JS (Popper included) ──────────────────────────────────── -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 
-<!-- ── App scripts ────────────────────────────────────────────────────────── -->
 <script src="js/cookies.js"></script>
 <script src="js/validate.js"></script>
 
-<!-- ── Page-specific script (optional) ───────────────────────────────────── -->
 <?php if (isset($extraScript)): ?>
 <script>
 <?= $extraScript ?>
