@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * settings.php  –  User preferences (theme, language).
  *
@@ -50,7 +53,6 @@ $pageTitle = 'Settings';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Page heading ───────────────────────────────────────────────────────── -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h2 class="mb-0 fw-bold" style="color: var(--clr-primary);">
@@ -60,7 +62,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── Cookie consent notice ──────────────────────────────────────────────── -->
 <?php if (($_COOKIE['consent'] ?? '') !== 'true'): ?>
 <div class="alert alert-info alert-dismissible fade show" role="alert">
     <i class="bi bi-info-circle me-2"></i>
@@ -70,7 +71,6 @@ include __DIR__ . '/includes/header.php';
 </div>
 <?php endif; ?>
 
-<!-- ── Error alert ────────────────────────────────────────────────────────── -->
 <?php if ($error): ?>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <i class="bi bi-exclamation-triangle me-2"></i>
@@ -79,7 +79,6 @@ include __DIR__ . '/includes/header.php';
 </div>
 <?php endif; ?>
 
-<!-- ── Preferences card ───────────────────────────────────────────────────── -->
 <div class="row">
     <div class="col-lg-8">
         <div class="card shadow-sm">
@@ -87,11 +86,9 @@ include __DIR__ . '/includes/header.php';
                 <form method="POST" action="settings.php">
                     <input type="hidden" name="csrf_token" value="<?= esc($_SESSION['csrf_token']) ?>" />
 
-                    <!-- Theme -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Display Theme</label>
                         <div class="row g-3">
-                            <!-- Light option -->
                             <div class="col-6">
                                 <label class="d-block border rounded p-3 text-center
                                     <?= $user['theme_pref'] === 'light' ? 'border-primary shadow-sm' : '' ?>"
@@ -103,7 +100,6 @@ include __DIR__ . '/includes/header.php';
                                     <small class="fw-semibold">Light</small>
                                 </label>
                             </div>
-                            <!-- Dark option -->
                             <div class="col-6">
                                 <label class="d-block border rounded p-3 text-center
                                     <?= $user['theme_pref'] === 'dark' ? 'border-primary shadow-sm' : '' ?>"
@@ -118,7 +114,6 @@ include __DIR__ . '/includes/header.php';
                         </div>
                     </div>
 
-                    <!-- Language -->
                     <div class="mb-4">
                         <label for="settingsLang" class="form-label fw-semibold">Language</label>
                         <select id="settingsLang" name="lang" class="form-select" style="max-width:220px;">
@@ -128,7 +123,6 @@ include __DIR__ . '/includes/header.php';
                         </select>
                     </div>
 
-                    <!-- Submit -->
                     <button type="submit" class="btn btn-primary-custom">
                         <i class="bi bi-check-lg me-1"></i>Save Preferences
                     </button>
