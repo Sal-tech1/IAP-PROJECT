@@ -4,11 +4,6 @@
 # Run once:  mysql -u root -p ics2203_capstone < schema.sql
 # =============================================================================
 
-# ── Create & select database ─────────────────────────────────────────────────
-CREATE DATABASE IF NOT EXISTS ics2203_capstone
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE ics2203_capstone;
-
 # ── 1. users ─────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -50,7 +45,7 @@ CREATE TABLE IF NOT EXISTS audit_log (
     action     ENUM('CREATE','UPDATE','DELETE') NOT NULL,
     entity     VARCHAR(50)  NOT NULL,                      -- e.g. 'product'
     entity_id  INT UNSIGNED NOT NULL,
-    details    TEXT,                                        -- JSON snapshot (optional)
+    details    TEXT,                                       -- JSON snapshot (optional)
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_audit_user FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB;
