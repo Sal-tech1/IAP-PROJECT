@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * login.php  –  User login page
  */
@@ -20,14 +23,12 @@ include __DIR__ . '/includes/header.php';
 <div class="auth-wrapper">
     <div class="auth-card card shadow">
 
-        <!-- Header icon & title -->
         <div class="text-center mb-3">
             <i class="bi bi-person-circle" style="font-size: 3rem; color: var(--clr-primary-lt);"></i>
             <h4 class="card-title mt-2 mb-0">Welcome Back</h4>
             <small class="text-clr-muted">Sign in to your account</small>
         </div>
 
-        <!-- Server-side error alert -->
         <?php if ($error): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle me-2"></i>
@@ -36,12 +37,9 @@ include __DIR__ . '/includes/header.php';
         </div>
         <?php endif; ?>
 
-        <!-- Login form -->
         <form id="loginForm" method="POST" action="login.php" novalidate>
-            <!-- CSRF token (hidden) -->
             <input type="hidden" name="csrf_token" value="<?= esc($_SESSION['csrf_token']) ?>" />
 
-            <!-- Email -->
             <div class="mb-3">
                 <label for="loginEmail" class="form-label fw-semibold small">Email Address</label>
                 <div class="input-group">
@@ -57,7 +55,6 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Password -->
             <div class="mb-4">
                 <label for="loginPassword" class="form-label fw-semibold small">Password</label>
                 <div class="input-group">
@@ -72,16 +69,13 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Submit -->
             <button type="submit" class="btn btn-primary-custom w-100">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Log In
             </button>
         </form>
 
-        <!-- Divider -->
         <hr class="my-3" />
 
-        <!-- Link to register -->
         <p class="text-center text-clr-muted small mb-0">
             Don&rsquo;t have an account?
             <a href="register.php" class="fw-semibold">Register here</a>
