@@ -4,13 +4,13 @@
  * All authentication logic lives here.
  *
  * Public functions:
- *   isLoggedIn()          – bool
- *   getCurrentUser()      – array|null
- *   requireAuth()         – redirects to login if not authenticated
- *   handleLogin()         – processes POST login form
- *   handleRegister()      – processes POST registration form
- *   handleLogout()        – destroys session, redirects
- *   verifyCsrf()          – validates the CSRF token from a form POST
+ * isLoggedIn()          – bool
+ * getCurrentUser()      – array|null
+ * requireAuth()         – redirects to login if not authenticated
+ * handleLogin()         – processes POST login form
+ * handleRegister()      – processes POST registration form
+ * handleLogout()        – destroys session, redirects
+ * verifyCsrf()          – validates the CSRF token from a form POST
  */
 
 if (!defined('APP_RUNNING')) exit;
@@ -84,7 +84,7 @@ function handleLogin(): ?string
     }
 
     // ── Success: regenerate session, store data, redirect ────────────────
-    session_regenerate(true);                          // prevent session fixation
+    session_regenerate_id(true);                       // prevent session fixation
     $_SESSION['user_id']   = $user['id'];
     $_SESSION['user_role'] = $user['role'];
 
@@ -149,7 +149,7 @@ function handleRegister(): ?string
     ]);
 
     // ── Auto-login after registration ─────────────────────────────────────
-    session_regenerate(true);
+    session_regenerate_id(true);
     $_SESSION['user_id']   = $pdo->lastInsertId();
     $_SESSION['user_role'] = 'user';
 
@@ -163,7 +163,7 @@ function handleLogout(): void
 {
     // Wipe session data, regenerate ID, then destroy
     $_SESSION = [];
-    session_regenerate(true);
+    session_regenerate_id(true);
     session_destroy();
 
     // Clear the session cookie from the browser
