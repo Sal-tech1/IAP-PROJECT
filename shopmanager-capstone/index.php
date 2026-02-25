@@ -14,27 +14,22 @@ $pageTitle = 'Welcome';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero section ───────────────────────────────────────────────────────── -->
 <div class="row justify-content-center text-center mt-4">
     <div class="col-lg-8">
 
-        <!-- Icon -->
         <div class="mb-4">
             <i class="bi bi-shop" style="font-size: 4rem; color: var(--clr-primary-lt);"></i>
         </div>
 
-        <!-- Headline -->
         <h1 class="fw-bold mb-3" style="color: var(--clr-primary); font-size: 2.4rem;">
             Welcome to <span style="color: var(--clr-primary-lt);">ShopManager</span>
         </h1>
 
-        <!-- Sub-headline -->
         <p class="lead text-clr-muted mb-4" style="max-width: 560px; margin: 0 auto 1.5rem;">
             A responsive product-management application built with PHP &amp; MySQL.
             Create, read, update, and delete products — all from one clean dashboard.
         </p>
 
-        <!-- CTA buttons -->
         <div class="d-flex flex-wrap justify-content-center gap-3">
             <a href="login.php" class="btn btn-primary-custom btn-lg">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Log In
@@ -46,7 +41,6 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<!-- ── Feature cards ──────────────────────────────────────────────────────── -->
 <div class="row g-4 mt-5">
 
     <div class="col-md-4">
