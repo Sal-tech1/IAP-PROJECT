@@ -1,10 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 /**
  * dashboard.php  –  Main dashboard with KPI cards and recent audit log.
  */
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/backend/includes/bootstrap.php';
 requireAuth();   // redirect to login if not authenticated
 
 $pdo = getDB();
@@ -18,9 +16,10 @@ $userCount     = $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
 $recentAudit = getRecentAudit(10);
 
 $pageTitle = 'Dashboard';
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/backend/includes/header.php';
 ?>
 
+<!-- ── Page heading ───────────────────────────────────────────────────────── -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h2 class="mb-0 fw-bold" style="color: var(--clr-primary);">
@@ -33,8 +32,10 @@ include __DIR__ . '/includes/header.php';
     </a>
 </div>
 
+<!-- ── KPI Cards ──────────────────────────────────────────────────────────── -->
 <div class="row g-4 mb-5">
 
+    <!-- Products -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4">
             <div class="d-flex align-items-center gap-3">
@@ -50,11 +51,12 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 
+    <!-- Categories -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4" style="border-left-color:#27ae60;">
             <div class="d-flex align-items-center gap-3">
                 <div class="rounded-circle d-flex align-items-center justify-content-center"
-                     style="width:52px;height:52px;background:#eafaf1;">
+                     style="width:52px; height:52px; background:#eafaf1;">
                     <i class="bi bi-tags" style="font-size:1.6rem;color:#27ae60;"></i>
                 </div>
                 <div>
@@ -65,6 +67,7 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 
+    <!-- Users -->
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card kpi-card p-4" style="border-left-color:#f39c12;">
             <div class="d-flex align-items-center gap-3">
@@ -81,13 +84,14 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<!-- ── Recent Audit Log ───────────────────────────────────────────────────── -->
+<div class="card d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-semibold mb-0" style="color: var(--clr-primary);">
         <i class="bi bi-clock-history me-2"></i>Recent Activity
     </h5>
 </div>
 
-<div class="table-responsive">
+<div class="card table-responsive">
     <table class="table table-custom">
         <thead>
             <tr>
@@ -131,4 +135,4 @@ include __DIR__ . '/includes/header.php';
     </table>
 </div>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/backend/includes/footer.php'; ?>

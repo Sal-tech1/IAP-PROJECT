@@ -3,7 +3,7 @@
  * logout.php  –  Destroys the session and redirects to login.
  * No page is rendered — this is a pure action endpoint.
  */
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/backend/includes/bootstrap.php';
 
 if (isLoggedIn()) {
     flashSet('success', 'You have been logged out successfully.');

@@ -2,21 +2,23 @@
 /**
  * privacy.php  –  Privacy Policy page
  */
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/backend/includes/bootstrap.php';
 
 $pageTitle = 'Privacy Policy';
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/backend/includes/header.php';
 ?>
 
+<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
 <div class="text-center mb-5">
     <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--clr-primary-lt);"></i>
     <h2 class="fw-bold mt-2 mb-1" style="color: var(--clr-primary);">Privacy Policy</h2>
-    <small class="text-clr-muted">Last updated: January 2026</small>
+    <small class="text-clr-muted">Last updated: February 20th 2026</small>
 </div>
 
 <div class="row justify-content-center">
 <div class="col-lg-8">
 
+<!-- ── 1. What we collect ─────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -32,6 +34,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- ── 2. How we use it ───────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -45,6 +48,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- ── 3. Cookies ─────────────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -95,6 +99,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- ── 4. Data security ───────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -110,6 +115,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- ── 5. Your rights ─────────────────────────────────────────────────────── -->
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -125,6 +131,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- ── 6. Contact ─────────────────────────────────────────────────────────── -->
 <div class="card shadow-sm">
     <div class="card-body p-4">
         <h5 class="fw-semibold mb-3" style="color: var(--clr-primary);">
@@ -133,9 +140,12 @@ include __DIR__ . '/includes/header.php';
         <p class="text-clr-muted mb-0">
             If you have questions about this privacy policy or how we handle your data,
             please contact the project team at:
-            <a href="mailto:team@example.com" class="fw-semibold">team@example.com</a>
+            <a href="gmail.com" class="fw-semibold">dukadash@gmail.com</a>
         </p>
     </div>
 </div>
 
-</div></div><?php include __DIR__ . '/includes/footer.php'; ?>
+</div><!-- /col -->
+</div><!-- /row -->
+
+<?php include __DIR__ . '/backend/includes/footer.php'; ?>

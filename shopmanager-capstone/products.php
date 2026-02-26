@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 /**
  * products.php  –  Full CRUD for products.
  *
@@ -12,7 +9,7 @@ error_reporting(E_ALL);
  * POST /products.php?action=update&id=N → update a product
  * POST /products.php?action=delete&id=N → delete a product (confirm first)
  */
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/backend/includes/bootstrap.php';
 requireAuth();
 
 $pdo    = getDB();
@@ -36,6 +33,7 @@ if ($action === 'create') {
             $price       = $_POST['price']            ?? '';
             $stock       = $_POST['stock']            ?? '';
             $categoryId  = (int)($_POST['category_id'] ?? 0);
+            $imageUrl    = trim($_POST['image_url']   ?? '');
 
             // Server-side validation
             if (strlen($name) < 3 || strlen($name) > 200)
@@ -46,12 +44,14 @@ if ($action === 'create') {
                 $error = 'Stock must be 0 or a positive whole number.';
             elseif ($categoryId === 0)
                 $error = 'Please select a category.';
+            elseif ($imageUrl !== '' && !filter_var($imageUrl, FILTER_VALIDATE_URL))
+                $error = 'Image URL must be a valid URL (or leave blank).';
         }
 
         if (!$error) {
             $stmt = $pdo->prepare(
-                'INSERT INTO products (name, description, price, stock, category_id, created_by)
-                 VALUES (?, ?, ?, ?, ?, ?)'
+                'INSERT INTO products (name, description, price, stock, category_id, image_url, created_by)
+                 VALUES (?, ?, ?, ?, ?, ?, ?)'
             );
             $stmt->execute([
                 htmlspecialchars(strip_tags($name)),
@@ -59,6 +59,7 @@ if ($action === 'create') {
                 number_format((float)$price, 2, '.', ''),
                 (int)$stock,
                 $categoryId,
+                $imageUrl !== '' ? $imageUrl : null,
                 $_SESSION['user_id']
             ]);
 
@@ -73,11 +74,11 @@ if ($action === 'create') {
 
     // ── Render CREATE form ──────────────────────────────────────────────────
     $pageTitle = 'Add Product';
-    include __DIR__ . '/includes/header.php';
+    include __DIR__ . '/backend/includes/header.php';
     $formAction = 'create';
     $product    = $_POST;   // re-fill on validation error
-    include __DIR__ . '/php/product_form.php';
-    include __DIR__ . '/includes/footer.php';
+    include __DIR__ . '/backend/php/product_form.php';
+    include __DIR__ . '/backend/includes/footer.php';
     exit;
 }
 
@@ -105,6 +106,7 @@ if ($action === 'edit') {
             $price       = $_POST['price']            ?? '';
             $stock       = $_POST['stock']            ?? '';
             $categoryId  = (int)($_POST['category_id'] ?? 0);
+            $imageUrl    = trim($_POST['image_url']   ?? '');
 
             if (strlen($name) < 3 || strlen($name) > 200)
                 $error = 'Product name must be between 3 and 200 characters.';
@@ -114,11 +116,13 @@ if ($action === 'edit') {
                 $error = 'Stock must be 0 or a positive whole number.';
             elseif ($categoryId === 0)
                 $error = 'Please select a category.';
+            elseif ($imageUrl !== '' && !filter_var($imageUrl, FILTER_VALIDATE_URL))
+                $error = 'Image URL must be a valid URL (or leave blank).';
         }
 
         if (!$error) {
             $stmt = $pdo->prepare(
-                'UPDATE products SET name=?, description=?, price=?, stock=?, category_id=?
+                'UPDATE products SET name=?, description=?, price=?, stock=?, category_id=?, image_url=?
                  WHERE id=?'
             );
             $stmt->execute([
@@ -127,6 +131,7 @@ if ($action === 'edit') {
                 number_format((float)$price, 2, '.', ''),
                 (int)$stock,
                 $categoryId,
+                $imageUrl !== '' ? $imageUrl : null,
                 $id
             ]);
 
@@ -143,10 +148,10 @@ if ($action === 'edit') {
     }
 
     $pageTitle = 'Edit Product';
-    include __DIR__ . '/includes/header.php';
+    include __DIR__ . '/backend/includes/header.php';
     $formAction = 'edit';
-    include __DIR__ . '/php/product_form.php';
-    include __DIR__ . '/includes/footer.php';
+    include __DIR__ . '/backend/php/product_form.php';
+    include __DIR__ . '/backend/includes/footer.php';
     exit;
 }
 
@@ -198,7 +203,7 @@ $paging = paginate($totalRows, 10);
 // Fetch page of products
 $query = 'SELECT p.*, c.name AS category_name
           FROM products p
-          JOIN categories c ON c.id = p.category_id';
+          LEFT JOIN categories c ON c.id = p.category_id';
 $params = [];
 
 if ($search !== '') {
@@ -215,9 +220,10 @@ $products = $stmt->fetchAll();
 
 // ── Render LIST page ────────────────────────────────────────────────────────
 $pageTitle = 'Products';
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/backend/includes/header.php';
 ?>
 
+<!-- ── Page heading ───────────────────────────────────────────────────────── -->
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
     <div>
         <h2 class="mb-0 fw-bold" style="color: var(--clr-primary);">
@@ -230,6 +236,7 @@ include __DIR__ . '/includes/header.php';
     </a>
 </div>
 
+<!-- ── Search bar ─────────────────────────────────────────────────────────── -->
 <form method="GET" action="products.php" class="mb-4">
     <div class="input-group" style="max-width:420px;">
         <span class="input-group-text bg-white">
@@ -245,14 +252,16 @@ include __DIR__ . '/includes/header.php';
     </div>
 </form>
 
+<!-- ── Product table ──────────────────────────────────────────────────────── -->
 <div class="table-responsive">
     <table class="table table-custom">
         <thead>
             <tr>
                 <th>#</th>
+                <th style="width:70px;" class="text-center">Image</th>
                 <th>Name</th>
                 <th>Category</th>
-                <th class="text-end">Price</th>
+                <th class="text-end">Price (KES)</th>
                 <th class="text-end">Stock</th>
                 <th class="text-end">Actions</th>
             </tr>
@@ -260,7 +269,7 @@ include __DIR__ . '/includes/header.php';
         <tbody>
             <?php if (empty($products)): ?>
             <tr>
-                <td colspan="6" class="text-center text-clr-muted py-4">
+                <td colspan="7" class="text-center text-clr-muted py-4">
                     <i class="bi bi-inbox me-2"></i>No products found.
                 </td>
             </tr>
@@ -268,6 +277,21 @@ include __DIR__ . '/includes/header.php';
             <?php foreach ($products as $p): ?>
             <tr>
                 <td class="text-clr-muted small"><?= (int)$p['id'] ?></td>
+
+                <!-- Thumbnail -->
+                <td class="text-center" style="width:70px;">
+                    <?php if (!empty($p['image_url'])): ?>
+                        <img src="<?= esc($p['image_url']) ?>"
+                             alt="<?= esc($p['name']) ?>"
+                             class="product-thumb"
+                             onerror="this.onerror=null;this.src='';this.parentNode.innerHTML='<span class=\'thumb-placeholder\'><i class=\'bi bi-image text-clr-muted\'></i></span>';" />
+                    <?php else: ?>
+                        <span class="thumb-placeholder">
+                            <i class="bi bi-image text-clr-muted"></i>
+                        </span>
+                    <?php endif; ?>
+                </td>
+
                 <td>
                     <strong><?= esc($p['name']) ?></strong>
                     <?php if (!empty($p['description'])): ?>
@@ -280,14 +304,16 @@ include __DIR__ . '/includes/header.php';
                     </span>
                 </td>
                 <td class="text-end fw-semibold" style="color:var(--clr-primary-lt);">
-                    $<?= number_format((float)$p['price'], 2) ?>
+                    KES <?= number_format((float)$p['price'], 2) ?>
                 </td>
                 <td class="text-end"><?= (int)$p['stock'] ?></td>
                 <td class="text-end">
+                    <!-- Edit button -->
                     <a href="products.php?action=edit&amp;id=<?= (int)$p['id'] ?>"
                        class="btn btn-sm btn-outline-secondary me-1" title="Edit">
                         <i class="bi bi-pencil"></i>
                     </a>
+                    <!-- Delete trigger (opens modal) -->
                     <button type="button"
                             class="btn btn-sm btn-outline-danger"
                             data-bs-toggle="modal" data-bs-target="#deleteModal"
@@ -304,9 +330,11 @@ include __DIR__ . '/includes/header.php';
     </table>
 </div>
 
+<!-- ── Pagination ─────────────────────────────────────────────────────────── -->
 <?php if ($paging['total_pages'] > 1): ?>
 <nav aria-label="Products pagination">
     <ul class="pagination justify-content-center">
+        <!-- Previous -->
         <li class="page-item <?= $paging['page'] <= 1 ? 'disabled' : '' ?>">
             <a class="page-link" href="products.php?page=<?= $paging['page'] - 1 ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <i class="bi bi-chevron-left"></i>
@@ -316,12 +344,13 @@ include __DIR__ . '/includes/header.php';
         <?php for ($i = 1; $i <= $paging['total_pages']; $i++): ?>
         <li class="page-item <?= $i === $paging['page'] ? 'active' : '' ?>">
             <a class="page-link"
-               href="products.php?page=<?= $i ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
+               href="products.php?page={$i}<?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <?= $i ?>
             </a>
         </li>
         <?php endfor; ?>
 
+        <!-- Next -->
         <li class="page-item <?= $paging['page'] >= $paging['total_pages'] ? 'disabled' : '' ?>">
             <a class="page-link" href="products.php?page=<?= $paging['page'] + 1 ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
                 <i class="bi bi-chevron-right"></i>
@@ -331,6 +360,7 @@ include __DIR__ . '/includes/header.php';
 </nav>
 <?php endif; ?>
 
+<!-- ── Delete confirmation modal ──────────────────────────────────────────── -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-label="Delete confirmation">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -376,5 +406,5 @@ document.getElementById('deleteModal').addEventListener('show.bs.modal', functio
 });
 JS;
 
-include __DIR__ . '/includes/footer.php';
+include __DIR__ . '/backend/includes/footer.php';
 ?>
