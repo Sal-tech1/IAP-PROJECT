@@ -1,92 +1,70 @@
 /* =============================================================================
-   js/cookies.js  –  Cookie consent manager & theme/language applier
-   No external dependencies.  Runs on DOMContentLoaded.
+   js/cookies.js  –  Client-side Theme & Cookie Management
+   
+   This script handles the immediate application of themes and manages
+   user consent for cookies.
    ============================================================================= */
+
 (function () {
     'use strict';
 
-    // ── Tiny cookie helpers ───────────────────────────────────────────────────
+    /**
+     * Helper to retrieve a cookie value by name.
+     * Used to check theme and consent status without refreshing the page.
+     */
     function getCookie(name) {
         const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
         return match ? decodeURIComponent(match[1]) : null;
     }
 
+    /**
+     * Sets a browser cookie.
+     * theme and lang cookies are set for 365 days.
+     */
     function setCookie(name, value, days) {
         const expires = new Date(Date.now() + days * 86400000).toUTCString();
-        document.cookie = name + '=' + encodeURIComponent(value) +
-            '; expires=' + expires +
-            '; path=/' +
-            '; SameSite=Strict' +
-            (location.protocol === 'https:' ? '; Secure' : '');
+        document.cookie = name + '=' + encodeURIComponent(value) + 
+            '; expires=' + expires + 
+            '; path=/' + 
+            '; SameSite=Strict';
     }
 
-    function deleteCookie(name) {
-        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Strict';
-    }
-
-    // ── Apply stored theme ────────────────────────────────────────────────────
+    /**
+     * Applies the theme class to the body.
+     * This runs immediately to ensure the UI matches the user's cookie.
+     */
     function applyTheme() {
         const theme = getCookie('theme');
         if (theme === 'dark') {
             document.body.classList.add('theme-dark');
-        } else {
+        } else if (theme === 'light') {
             document.body.classList.remove('theme-dark');
         }
     }
 
-    // ── Init on DOM ready ─────────────────────────────────────────────────────
+    // Initialize logic when the browser is ready
     document.addEventListener('DOMContentLoaded', function () {
-
-        // Apply theme immediately (prevents flash)
         applyTheme();
 
         const banner   = document.getElementById('cookieBanner');
         const acceptBtn  = document.getElementById('acceptCookies');
-        const declineBtn = document.getElementById('declineCookies');
 
-        if (!banner) return;   // banner element not on this page
-
-        // Show banner only if consent has NOT been given yet
-        if (getCookie('consent') !== 'true') {
+        // Show the consent banner if the 'consent' cookie is missing
+        if (banner && getCookie('consent') !== 'true') {
             banner.style.display = 'flex';
         }
 
-        // ── Accept ──────────────────────────────────────────────────────────
+        // Handle the 'Accept Cookies' button click
         if (acceptBtn) {
             acceptBtn.addEventListener('click', function () {
                 setCookie('consent', 'true', 365);
-
-                // Persist current theme preference (default: light)
+                
+                // Save the current theme preference into a cookie
                 const currentTheme = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
                 setCookie('theme', currentTheme, 365);
-
-                // Persist language preference (default: en)
-                setCookie('lang', 'en', 365);
-
-                banner.style.display = 'none';
-            });
-        }
-
-        // ── Decline ─────────────────────────────────────────────────────────
-        if (declineBtn) {
-            declineBtn.addEventListener('click', function () {
-                // Remove any existing pref cookies
-                deleteCookie('theme');
-                deleteCookie('lang');
-                deleteCookie('cart');
-                // Still set consent = false so banner doesn't keep appearing
-                setCookie('consent', 'false', 365);
+                
                 banner.style.display = 'none';
             });
         }
     });
-
-    // ── Expose helpers globally so settings.php can call them ────────────────
-    window.CookieManager = {
-        get: getCookie,
-        set: setCookie,
-        delete: deleteCookie,
-        applyTheme: applyTheme
-    };
-
 })();

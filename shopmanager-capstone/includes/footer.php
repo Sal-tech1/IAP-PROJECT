@@ -9,10 +9,10 @@ if (!defined('APP_RUNNING')) exit;
 </main>
 
 <footer class="mt-auto py-3 text-center text-muted small"
-        style="background: linear-gradient(135deg, #1a5276, #2e86c1);">
+        style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(8px);">
     <div class="container">
         <span class="text-white-50">
-            &copy; <?= date('Y') ?> ShopManager &mdash; ICS 2203 Capstone Project
+            &copy; <?= date('Y') ?> DukaDash &mdash; IAP Project
             &nbsp;|&nbsp;
             <a href="privacy.php" class="text-warning text-decoration-none">Privacy Policy</a>
         </span>

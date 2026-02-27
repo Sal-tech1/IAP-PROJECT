@@ -1,39 +1,59 @@
 /* =============================================================================
-   css/style.css  –  ShopManager custom styles
-   Framework: Bootstrap 5  |  Icons: Bootstrap Icons
+   css/style.css  –  DukaDash custom styles
+
+   This stylesheet uses CSS Variables (:root) to manage the design system.
+   The .theme-dark class on the <body> tag overrides these variables to 
+   instantly switch the entire application's color scheme.
    ============================================================================= */
 
-/* ── CSS Custom Properties (design tokens) ──────────────────────────────── */
 :root {
-    --clr-primary:     #1a5276;
-    --clr-primary-lt:  #2e86c1;
-    --clr-accent:      #f39c12;
-    --clr-success:     #27ae60;
-    --clr-danger:      #e74c3c;
+    /* Brand Colors */
+    --clr-primary:     #1a5276; /* Deep Navy */
+    --clr-primary-lt:  #2e86c1; /* Bright Blue */
+    --clr-accent:      #f39c12; /* Golden Orange */
+
+    /* Surface and Text Colors (Light Mode Default) */
     --clr-bg:          #f0f4f8;
     --clr-card-bg:     #ffffff;
-    --clr-text:        #2c3e50;
-    --clr-text-muted:  #7f8c8d;
+    --clr-text:        #1a1a1a; /* Dark almost-black for max readability */
+    --clr-text-muted:  #6c757d;
+
+    /* Effects */
     --shadow-card:     0 2px 12px rgba(0,0,0,.08);
     --radius:          10px;
     --transition:      .22s ease;
 }
 
-/* ── Dark theme overrides ─────────────────────────────────────────────────── */
+/* ── Dark Theme Overrides ─────────────────────────────────────────────────── 
+   When <body> has .theme-dark, we swap surface and text colors while 
+   keeping the primary brand colors consistent.
+──────────────────────────────────────────────────────────────────────────── */
 body.theme-dark {
     --clr-bg:          #1c2833;
     --clr-card-bg:     #2c3e50;
-    --clr-text:        #ecf0f1;
-    --clr-text-muted:  #bdc3c7;
+    --clr-text:        #f8f9fa; /* Bright white for max readability */
+    --clr-text-muted:  #adb5bd;
     --shadow-card:     0 2px 12px rgba(0,0,0,.3);
 }
 
-/* ── Base ─────────────────────────────────────────────────────────────────── */
+/* ── Global Styles ────────────────────────────────────────────────────────── */
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background-color: var(--clr-bg);
+
+    /* LIGHT MODE BACKGROUND: Frosted-glass overlay (0.85 opacity) */
+    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
+                url('../assets/bg2.jpeg') no-repeat center center fixed;
+    background-size: cover;
     color: var(--clr-text);
     transition: background-color var(--transition), color var(--transition);
+    min-height: 100vh;
+}
+
+/* DARK MODE BACKGROUND: Deep shadow overlay (0.85 opacity) */
+body.theme-dark {
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                url('../assets/bg2.jpeg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 a {
@@ -41,26 +61,32 @@ a {
     text-decoration: none;
     transition: color var(--transition);
 }
-a:hover { color: var(--clr-accent); }
 
-/* ── Cards ────────────────────────────────────────────────────────────────── */
+a:hover { 
+    color: var(--clr-accent); 
+}
+
+/* ── Components ───────────────────────────────────────────────────────────── */
 .card {
     background-color: var(--clr-card-bg);
     border: none;
     border-radius: var(--radius);
     box-shadow: var(--shadow-card);
+    color: var(--clr-text);
     transition: background-color var(--transition), box-shadow var(--transition);
 }
 
-/* KPI summary cards on dashboard */
+/* KPI summary cards on the dashboard */
 .kpi-card {
     border-left: 4px solid var(--clr-primary-lt);
     transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .kpi-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 18px rgba(0,0,0,.14);
 }
+
 .kpi-card .kpi-value {
     font-size: 2rem;
     font-weight: 700;
@@ -74,9 +100,9 @@ a:hover { color: var(--clr-accent); }
     border-color: #cbd5e1;
     background-color: var(--clr-card-bg);
     color: var(--clr-text);
-    transition: border-color var(--transition), box-shadow var(--transition),
-                background-color var(--transition);
+    transition: border-color var(--transition), background-color var(--transition);
 }
+
 .form-control:focus,
 .form-select:focus {
     border-color: var(--clr-primary-lt);
@@ -85,43 +111,41 @@ a:hover { color: var(--clr-accent); }
     color: var(--clr-text);
 }
 
-/* Validation feedback helpers */
-.form-control.is-invalid,
-.form-select.is-invalid {
-    border-color: var(--clr-danger);
-}
-.invalid-feedback {
-    color: var(--clr-danger);
-    font-size: .8rem;
-    margin-top: 2px;
-}
-
 /* ── Buttons ──────────────────────────────────────────────────────────────── */
 .btn-primary-custom {
     background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-lt));
-    color: #fff;
+    color: #fff !important;
     border: none;
     border-radius: 6px;
     padding: .55rem 1.4rem;
     font-weight: 600;
-    transition: opacity var(--transition), transform var(--transition);
-}
-.btn-primary-custom:hover {
-    opacity: .88;
-    transform: translateY(-1px);
-    color: #fff;
+    transition: transform 0.1s ease, opacity var(--transition);
 }
 
-/* ── Tables ───────────────────────────────────────────────────────────────── */
+.btn-primary-custom:hover { opacity: .88; }
+.btn-primary-custom:active { transform: scale(0.98); }
+
+/* ── Tables (Bulletproof Bootstrap 5 Overrides) ───────────────────────────── 
+   By injecting our CSS variables directly into Bootstrap's --bs-table 
+   variables, we guarantee the text matches the theme perfectly without fighting.
+────────────────────────────────────────────────────────────────────────────── */
 .table-custom {
+    --bs-table-bg: transparent; 
+    --bs-table-color: var(--clr-text); /* Forces table text to match the current theme */
+    --bs-table-border-color: rgba(0,0,0,0.08);
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: var(--shadow-card);
+    margin-bottom: 0;
 }
+
+body.theme-dark .table-custom {
+    --bs-table-border-color: rgba(255,255,255,0.08);
+}
+
 .table-custom thead {
     background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-lt));
-    color: #fff;
 }
+
 .table-custom thead th {
     font-weight: 600;
     font-size: .85rem;
@@ -129,25 +153,30 @@ a:hover { color: var(--clr-accent); }
     letter-spacing: .04em;
     border: none;
     padding: .75rem 1rem;
+    color: #ffffff !important; /* Table headers are always white */
 }
+
 .table-custom tbody tr {
     background-color: var(--clr-card-bg);
     transition: background-color var(--transition);
 }
-.table-custom tbody tr:nth-child(even) {
-    background-color: color-mix(in srgb, var(--clr-card-bg) 92%, var(--clr-primary-lt));
-}
-.table-custom tbody tr:hover {
-    background-color: color-mix(in srgb, var(--clr-card-bg) 85%, var(--clr-primary-lt));
-}
-.table-custom tbody td {
-    border-color: rgba(0,0,0,.06);
+
+.table-custom tbody td,
+.table-custom tbody th {
     padding: .7rem 1rem;
     vertical-align: middle;
-    color: var(--clr-text);
+    color: var(--clr-text) !important; 
+    font-weight: 500;
 }
 
-/* Action badge pills */
+/* Force Category badges inside the table to behave */
+.table-custom tbody span.badge {
+    color: var(--clr-text) !important;
+    background-color: var(--clr-bg) !important;
+    border: 1px solid var(--clr-text-muted) !important;
+}
+
+/* ── Badges & Thumbnails ──────────────────────────────────────────────────── */
 .badge-action {
     font-size: .72rem;
     border-radius: 20px;
@@ -156,25 +185,20 @@ a:hover { color: var(--clr-accent); }
     text-transform: uppercase;
     letter-spacing: .03em;
 }
+
 .badge-create  { background-color: #d5f5e3; color: #1e8449; }
 .badge-update  { background-color: #d6eaf8; color: #2471a3; }
 .badge-delete  { background-color: #fadbd8; color: #cb4335; }
 
-/* ── Pagination ───────────────────────────────────────────────────────────── */
-.pagination .page-link {
-    color: var(--clr-primary);
-    border-color: #dee2e6;
-    background-color: var(--clr-card-bg);
-    transition: background-color var(--transition), color var(--transition);
-}
-.pagination .page-link:hover {
-    background-color: var(--clr-primary-lt);
-    color: #fff;
-    border-color: var(--clr-primary-lt);
-}
-.pagination .page-item.active .page-link {
-    background-color: var(--clr-primary);
-    border-color: var(--clr-primary);
+.product-thumb {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e8ecf0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.10);
+    display: block;
+    margin: 0 auto;
 }
 
 /* ── Auth pages (centered card layout) ────────────────────────────────────── */
@@ -184,18 +208,10 @@ a:hover { color: var(--clr-accent); }
     align-items: center;
     justify-content: center;
 }
+
 .auth-card {
     width: 100%;
     max-width: 440px;
     padding: 2.2rem 2rem;
     border-radius: var(--radius);
 }
-.auth-card .card-title {
-    color: var(--clr-primary);
-}
-
-/* ── Utility ──────────────────────────────────────────────────────────────── */
-.text-clr-primary     { color: var(--clr-primary) !important; }
-.text-clr-primary-lt  { color: var(--clr-primary-lt) !important; }
-.text-clr-muted       { color: var(--clr-text-muted) !important; }
-.bg-clr-card          { background-color: var(--clr-card-bg) !important; }
